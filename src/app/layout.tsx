@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Inter as FontSans } from 'next/font/google';
 
 import ThemeProvider from '@/components/providers/ThemeProvider';
-import { SessionProvider } from 'next-auth/react';
+import AuthProvider from '@/components/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -30,7 +30,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <SessionProvider>
+        <AuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -39,7 +39,7 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );
