@@ -2,5 +2,10 @@
   "extends": ["airbnb", "airbnb-typescript","next/core-web-vitals"],
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "react/jsx-props-no-spreading": 0,
+    "import/no-extraneous-dependencies": 0
   }
 }
