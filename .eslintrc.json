@@ -6,6 +6,9 @@
   "rules": {
     "linebreak-style": 0,
     "react/jsx-props-no-spreading": 0,
-    "import/no-extraneous-dependencies": 0
-  }
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
+    "react/require-default-props": 0
+  },
+  "ignorePatterns": ["src/components/ui/*.tsx"]
 }
