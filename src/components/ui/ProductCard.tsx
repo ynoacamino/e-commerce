@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export function CardH() {
   return (
-    <Link href="/" className="max-w-96 md:max-w-none w-full flex flex-col md:flex-row flex-1">
+    <Link href="/" className="max-w-96 md:max-w-none w-full flex flex-col md:flex-row flex-1 h-full">
       <Card className="max-w-96 md:max-w-none w-full flex flex-col md:flex-row">
         <Image
           alt="Card Image"
@@ -19,9 +19,9 @@ export function CardH() {
           width={300}
           className="aspect-square w-full md:max-w-60 object-cover border-b-[1px] md:border-r-[1px] md:border-b-0 border-border"
         />
-        <div className="min-w-min">
-          <CardHeader>
-            <CardTitle className="text-wrap">
+        <div className="">
+          <CardHeader className="sm:p-6 p-3">
+            <CardTitle className="text-wrap text-base">
               Smartwatch HUAWEI Watch Fit 2 Rosado
             </CardTitle>
             <CardDescription>
@@ -54,8 +54,8 @@ export function CardV() {
           width={300}
           className="w-full border-b-[1px] border-border aspect-square object-cover"
         />
-        <CardHeader>
-          <CardTitle className="text-wrap">
+        <CardHeader className="sm:p-6 p-3">
+          <CardTitle className="text-wrap text-base">
             Smartwatch HUAWEI Watch Fit 2 Rosado
           </CardTitle>
           <CardDescription>
