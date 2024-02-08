@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id Int @id @default(autoincrement())
+  email String @unique
+  image String?
+  name String
+
+  carts Cart[]
+}
+
+model Product {
+  product_id Int @id @default(autoincrement())
+  product_name String
+  product_price Float
+  product_image String
+  product_description String
+
+  carts Cart[]
+
+  tags TagsOnProducts[]
+
+  category_id Int
+  category Category @relation(fields: [category_id], references: [category_id])
+
+  rating Rating?
+}
+
+model Tag {
+  tag_id Int @id @default(autoincrement())
+  tag_name String
+
+  products TagsOnProducts[]
+}
+
+model TagsOnProducts {
+  tag_id Int
+  tag Tag @relation(fields: [tag_id], references: [tag_id])
+
+  product_id Int
+  product Product @relation(fields: [product_id], references: [product_id])
+
+  @@id([tag_id, product_id])
+}
+
+model Cart {
+  user_id Int
+  user User @relation(fields: [user_id], references: [user_id])
+
+  product_id Int
+  product Product @relation(fields: [product_id], references: [product_id])
+
+  @@id([user_id, product_id])
+}
+
+model Category {
+  category_id Int @id @default(autoincrement())
+  category_name String
+
+  products Product[]
+}
+
+model Rating {
+  rating_id Int @id @default(autoincrement())
+  rating_rate Float
+  rating_count Int
+
+  product_id Int @unique
+  product Product @relation(fields: [product_id], references: [product_id])
+}

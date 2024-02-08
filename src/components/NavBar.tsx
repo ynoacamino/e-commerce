@@ -1,24 +1,23 @@
 import {
-  ShadowNoneIcon, MagnifyingGlassIcon,
+  ShadowNoneIcon,
 } from '@radix-ui/react-icons';
+import SearchModal from '@/components/SearchModal';
+import OptionsBar from '@/components/OptionsBar';
 import MenubarDemo from './test';
-import { Button } from './ui/button';
 
 export default function NavBar() {
   return (
-    <header className="w-full flex justify-center items-center p-3 border-[1px] border-border">
+    <header className="w-full flex justify-center items-center p-3 border-[1px] border-border sticky top-0 bg-background z-20">
       <div className="w-full max-w-7xl flex justify-between items-center">
-        <h1 className="flex gap-3 items-center justify-center">
-          <ShadowNoneIcon className="font-bold w-9 h-9" />
-          <span className="text-xl font-semibold tracking-tight w-full">My site</span>
-        </h1>
+        <div className="flex gap-4 justify-center items-center">
+          <h1 className="flex gap-3 items-center justify-center">
+            <ShadowNoneIcon className="font-bold w-9 h-9" />
+            <span className="text-xl font-semibold tracking-tight w-full">My site</span>
+          </h1>
+          <OptionsBar />
+        </div>
         <nav className="flex gap-4">
-          <Button variant="outline" size="sm" className="text-zinc-500 justify-start">
-            <MagnifyingGlassIcon className="w-5 h-5 mr-4" />
-            <span className="min-w-32 text-start">
-              Search product...
-            </span>
-          </Button>
+          <SearchModal />
           <MenubarDemo />
         </nav>
       </div>
