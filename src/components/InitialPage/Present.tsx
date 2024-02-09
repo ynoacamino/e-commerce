@@ -11,12 +11,12 @@ export default function Present() {
         className="border-r-[1px] border-border w-full md:max-w-2xl"
       />
       <div className="flex-1 flex flex-col items-center justify-center">
-        <h1 className="text-5xl my-5 px-5 font-bold text-center">Welcome</h1>
+        <h1 className="text-5xl my-5 px-5 font-bold text-center">Bienvenido</h1>
         <p className="text-lg px-5 font-semibold text-center text-zinc-600">
-          We have the best products for you.
+          Nosotros tenemos los mejores productos para ti.
         </p>
         <p className="text-lg px-5 font-semibold text-center text-zinc-600 max-w-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+          Ven y descubre la mejor calidad en productos para ti y tu familia.
         </p>
       </div>
     </div>

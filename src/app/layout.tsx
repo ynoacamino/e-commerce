@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const fontSans = FontSans({
   subsets: ['latin'],
-  variable: '--font-sans',
+  // variable: '--font-sans',
 });
 
 export default function RootLayout({
@@ -29,8 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable,
+          'min-h-screen bg-background antialiased',
+          fontSans.className,
         )}
       >
         <AuthProvider>
@@ -42,7 +42,9 @@ export default function RootLayout({
           >
             <div className="flex min-h-screen flex-col items-center justify-start w-full">
               <NavBar />
-              {children}
+              <div className="w-full flex flex-col justify-start items-center max-w-7xl flex-1 ">
+                {children}
+              </div>
               <Footer />
             </div>
           </ThemeProvider>

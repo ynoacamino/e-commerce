@@ -12,7 +12,7 @@ export default function Subscribe() {
           </h2>
           <div className="flex gap-4">
             <Input className="max-w-sm" />
-            <Button type="submit">Subscribe</Button>
+            <Button type="submit">Subscribete</Button>
           </div>
         </label>
       </form>

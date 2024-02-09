@@ -21,6 +21,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { Button } from './ui/button';
+// traduce todo al espanol
 
 export default function SearchModal() {
   const [open, setOpen] = React.useState(false);
@@ -41,7 +42,7 @@ export default function SearchModal() {
       <Button variant="outline" size="sm" className="text-zinc-500 justify-start" onClick={() => setOpen(true)}>
         <MagnifyingGlassIcon className="w-5 h-5 md:mr-4" />
         <span className="min-w-32 text-start hidden md:flex">
-          Search product...
+          Buscar productos...
         </span>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>

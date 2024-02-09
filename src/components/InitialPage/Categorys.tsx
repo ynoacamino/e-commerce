@@ -39,7 +39,7 @@ export default function Categorys() {
   return (
     <div className="w-full flex flex-col justify-start items-center py-10 border-b-[1px] border-border">
       <H1>
-        Categorys
+        Categorias
       </H1>
 
       <Tabs defaultValue="Populares" className="flex flex-col items-center justify-center">
