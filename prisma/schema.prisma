@@ -66,6 +66,7 @@ model Cart {
 model Category {
   category_id Int @id @default(autoincrement())
   category_name String
+  category_description String
 
   products Product[]
 }
