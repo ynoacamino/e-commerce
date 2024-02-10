@@ -6,11 +6,11 @@ export async function POST({ json }: Request) {
   const { id } = await json();
 
   if (id && isNumber(id)) {
-    await prisma.product.delete({
+    const product = await prisma.product.delete({
       where: { product_id: id },
     });
 
-    return NextResponse.json({ message: 'Item deleted' });
+    return NextResponse.json(product);
   }
 
   return NextResponse.json({ error: 'Item not found' }, { status: 404 });

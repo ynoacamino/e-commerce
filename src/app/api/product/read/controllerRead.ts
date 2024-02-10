@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 
-import { ProductFilterQuery, RateRangeEnum, PriceRangeEnum } from '@/types/Product';
+import { ProductFilterQuery, RateRangeEnum, PriceRangeEnum } from '@/types/Product/Product';
 
 const rateDetails = {
   [RateRangeEnum['0-1']]: { rating: { rating_rate: { gte: 0, lte: 1 } } },
@@ -21,9 +21,9 @@ const priceDetails = {
   [PriceRangeEnum['+500']]: { product_price: { gte: 500 } },
 };
 
-export async function findById({ id } : { id: number }) {
+export async function findById({ product_id } : { product_id: number }) {
   const item = await prisma.product.findUnique({
-    where: { product_id: id },
+    where: { product_id },
   });
 
   return item;

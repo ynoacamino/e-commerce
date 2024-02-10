@@ -1,4 +1,4 @@
-import { isUpdateProduct } from '@/lib/parserTypes';
+import { isUpdateProduct } from '@/types/Product/ParseProduct';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 

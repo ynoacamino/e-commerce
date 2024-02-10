@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { isNewProduct } from '@/lib/parserTypes';
+import { isNewProduct } from '@/types/Product/ParseProduct';
 
 import { prisma } from '@/lib/prisma';
 

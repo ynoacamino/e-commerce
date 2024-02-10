@@ -40,4 +40,5 @@ export type ProductFilterQuery = {
   rate: RateRangeEnum[] | undefined,
   brand_id: number[] | undefined,
   category_id: number[] | undefined,
+  product_id: number | undefined,
 };
