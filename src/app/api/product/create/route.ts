@@ -39,6 +39,12 @@ export async function POST({ json }: Request) {
       tags: {
         create: tags.map((t) => ({ tag: { connect: { tag_id: t } } })),
       },
+      rating: {
+        create: {
+          rating_count: 0,
+          rating_rate: 5,
+        },
+      },
     },
   });
 
