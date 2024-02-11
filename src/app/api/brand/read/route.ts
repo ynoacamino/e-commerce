@@ -14,5 +14,5 @@ export async function POST({ json }: Request) {
 
   const brands = await prisma.brand.findMany();
 
-  return brands;
+  return NextResponse.json(brands);
 }

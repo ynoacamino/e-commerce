@@ -1,5 +1,6 @@
 import { isNumber } from '@/lib/parserTypes';
 import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 
 export async function POST({ json }: Request) {
   const { category_id } = await json();
@@ -7,10 +8,10 @@ export async function POST({ json }: Request) {
   if (category_id && isNumber(category_id)) {
     const category = await prisma.category.findUnique({ where: { category_id } });
 
-    return category;
+    return NextResponse.json(category);
   }
 
   const categories = await prisma.category.findMany();
 
-  return categories;
+  return NextResponse.json(categories);
 }
