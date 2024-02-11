@@ -1,9 +1,11 @@
-import NextAuth, { AuthOptions } from 'next-auth';
+import NextAuth, { AuthOptions, Session } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 
 import { prisma } from '@/lib/prisma';
 import { parserUser } from '@/lib/user';
+
+type UserSession = Session & { user : { user_id: number } };
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -17,32 +19,35 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session }) => {
-      const userSession = session.user;
+    session: async ({ session }): Promise<UserSession> => {
+      const userSession = session as UserSession;
 
-      if (!parserUser(userSession)) {
+      if (!parserUser(userSession.user)) {
         throw new Error('Invalid user');
       }
 
       const user = await prisma.user.findUnique({
         where: {
-          email: userSession.email,
+          email: userSession.user.email,
         },
       });
 
       if (user) {
-        return session;
+        userSession.user.user_id = user.user_id;
+        return userSession;
       }
 
-      await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: {
-          email: userSession.email,
-          name: userSession.name,
-          image: userSession.image,
+          email: userSession.user.email,
+          name: userSession.user.name,
+          image: userSession.user.image,
         },
       });
 
-      return session;
+      userSession.user.user_id = newUser.user_id;
+
+      return userSession;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
