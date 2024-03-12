@@ -15,6 +15,9 @@ export async function POST(req: Request) {
     price,
     rate,
     product_id,
+    limit,
+    skip,
+    orderBy,
   } = filterQuery;
 
   if (product_id) {
@@ -23,7 +26,7 @@ export async function POST(req: Request) {
   }
 
   const items = await findAll({
-    price, brand_id, rate, category_id, product_id,
+    price, brand_id, rate, category_id, product_id, limit, skip, orderBy,
   });
 
   return NextResponse.json(items);

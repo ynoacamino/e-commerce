@@ -4,10 +4,24 @@ import {
 import SearchModal from '@/components/SearchModal';
 import OptionsBar from '@/components/OptionsBar';
 import Link from 'next/link';
+import { Category } from '@prisma/client';
 import MenubarDemo from './test';
 import { Button } from './ui/button';
 
-export default function NavBar() {
+const getCategorys = async () => {
+  const categorys = await fetch('http://localhost:3000/api/category/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  }).then((res) => res.json());
+
+  return categorys as Category[];
+};
+
+export default async function NavBar() {
+  const data = await getCategorys();
   return (
     <header className="w-full flex justify-center items-center p-3 border-[1px] border-border sticky top-0 bg-background z-20">
       <div className="w-full max-w-7xl flex justify-between items-center">
@@ -18,7 +32,7 @@ export default function NavBar() {
               <span className="text-xl font-semibold tracking-tight w-full">My site</span>
             </h1>
           </Link>
-          <OptionsBar />
+          <OptionsBar categorys={data} />
         </div>
         <div className="flex gap-4">
           <SearchModal />

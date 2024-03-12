@@ -15,9 +15,27 @@ import { Button } from '@/components/ui/button';
 import FacebookIcon from '@/components/icons/FacebookIcon';
 import WhatsappIcon from '@/components/icons/WhatsappIcon';
 import TwitterIcon from '@/components/icons/TwitterIcon';
+import { PopultedProduct } from '@/types/Product/Product';
 
-export default function ItemPage({ params }: { params: { id: string } }) {
-  const urlImage = 'https://res.cloudinary.com/dazt6g3o1/image/upload/v1707492655/krtohudysrtpe8lbesre.jpg';
+const getProduct = async (id: string) => {
+  const product_id = Number(id);
+
+  const product = await fetch('http://localhost:3000/api/product/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      product_id,
+    }),
+  }).then((res) => res.json());
+
+  return product as PopultedProduct;
+};
+
+export default async function ItemPage({ params }: { params: { id: string } }) {
+  const data = await getProduct(params.id);
+
   const pages = [
     { url: '/', name: 'Home' },
     { url: '/item', name: 'Item' },
@@ -33,24 +51,28 @@ export default function ItemPage({ params }: { params: { id: string } }) {
       <div className="w-full flex-1 grid grid-cols-2 px-10">
         <div className="flex justify-center items-start">
           <Image
-            src={urlImage}
+            src={data.product_image}
             alt="Picture of the author"
             width={500}
             height={500}
-            className="border-[1px] border-border"
+            className="border-[1px] border-border aspect-square"
           />
         </div>
         <div className="flex flex-col">
-          <p className="font-light">HUAWEI</p>
+          <p className="font-light">{data.brand.brand_name}</p>
           <h1 className="mb-1 text-xl font-semibold tracking-tight w-full">
-            Smartwatch HUAWEI Watch Fit 2 Rosado
+            {data.product_name}
           </h1>
-          <Rating rating={4.5} count={90} />
+          <Rating rating={data.rating.rating_rate} count={data.rating.rating_count} />
           <span className="text-sm font-light">
-            SKU: 1231023812
+            SKU:
+            {' '}
+            {data.product_id}
           </span>
           <span className="font-bold text-2xl my-5">
-            S/. 72.50
+            S/.
+            {' '}
+            {data.product_price.toFixed(2)}
           </span>
           <div className="w-full justify-between flex max-w-md">
             <Select>
@@ -72,12 +94,7 @@ export default function ItemPage({ params }: { params: { id: string } }) {
             </Button>
           </div>
           <p className="my-10 font-light w-full max-w-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec
-            ligula sit amet est fermentum consequat. Nullam nec fermentum
-            sapien. Sed nec orci nec sapien tincidunt fermentum
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec
-            ligula sit amet est fermentum consequat. Nullam nec fermentum
-            sapien. Sed nec orci nec sapien tincidunt fermentum
+            {data.product_description}
           </p>
           <div>
             <h2 className="mb-1 text-xl font-semibold tracking-tight w-full">

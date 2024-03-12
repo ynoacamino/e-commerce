@@ -1,5 +1,3 @@
-import { FaceIcon, ImageIcon, SunIcon } from '@radix-ui/react-icons';
-import { OptionMenu } from '@/components/ui/menu';
 import H1 from '@/components/ui/H1';
 import {
   Tabs,
@@ -7,56 +5,61 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import { PopultedProduct } from '@/types/Product/Product';
 import { CardV } from '../ui/ProductCard';
 
-export default function Categorys() {
-  const options: OptionMenu[] = [
-    {
-      Icon: FaceIcon,
-      name: 'Populares',
-      href: '/categoriasPopulares',
-      isSelect: false,
+const getProducts = async () => {
+  const products = [2, 3, 4, 5].map((id) => fetch('http://localhost:3000/api/product/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    {
-      Icon: ImageIcon,
-      name: 'Gallery',
-      href: '/gallery',
-      isSelect: false,
-    },
-    {
-      Icon: SunIcon,
-      name: 'Settings',
-      href: '/settings',
-      isSelect: false,
-    },
-    {
-      Icon: ImageIcon,
-      name: 'Hot Sale',
-      href: '/hot-sale',
-      isSelect: false,
-    },
-  ];
+    body: JSON.stringify({
+      category_id: [id],
+      limit: 4,
+    }),
+  }).then((res) => res.json()));
+
+  return Promise.all(products) as Promise<PopultedProduct[][]>;
+};
+
+export default async function Categorys() {
+  const data = await getProducts();
   return (
     <div className="w-full flex flex-col justify-start items-center py-10 border-b-[1px] border-border">
       <H1>
         Categorias
       </H1>
 
-      <Tabs defaultValue="Populares" className="flex flex-col items-center justify-center">
+      <Tabs defaultValue={String(data[0][0].category_id)} className="flex flex-col items-center justify-center">
         <TabsList className="">
           {
-            options.map(({ name }) => (
-              <TabsTrigger key={name} value={name}>{name}</TabsTrigger>
+            data.map((category) => (
+              <TabsTrigger
+                key={crypto.randomUUID()}
+                value={String(category[0].category_id)}
+              >
+                {category[0].category.category_name}
+              </TabsTrigger>
             ))
           }
         </TabsList>
         {
-          options.map(({ name }) => (
-            <TabsContent key={name} value={name}>
+          data.map((category) => (
+            <TabsContent key={crypto.randomUUID()} value={String(category[0].category_id)}>
               <div className="grid gap-4 p-4 md:grid-cols-4 grid-cols-2">
                 {
-                  Array.from({ length: 4 }).map(() => (
-                    <CardV key={crypto.randomUUID()} />
+                  category.map(({
+                    brand, product_id, product_name, product_price, product_image,
+                  }) => (
+                    <CardV
+                      key={crypto.randomUUID()}
+                      brand_name={brand.brand_name}
+                      product_id={product_id}
+                      product_image={product_image}
+                      product_name={product_name}
+                      product_price={product_price}
+                    />
                   ))
                 }
               </div>

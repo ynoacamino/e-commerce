@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 
 import { ProductFilterQuery, RateRangeEnum, PriceRangeEnum } from '@/types/Product/Product';
 
+import { Prisma } from '@prisma/client';
+
 const rateDetails = {
   [RateRangeEnum['0-1']]: { rating: { rating_rate: { gte: 0, lte: 1 } } },
   [RateRangeEnum['1-2']]: { rating: { rating_rate: { gte: 0, lte: 1 } } },
@@ -21,9 +23,22 @@ const priceDetails = {
   [PriceRangeEnum['+500']]: { product_price: { gte: 500 } },
 };
 
+const orderByDetails = {
+  'new-products': { product_date: 'desc' },
+  'lower-price': { product_price: 'asc' },
+  'higher-price': { product_price: 'desc' },
+  brand: { brand: { brand_name: 'asc' } },
+  rating: { rating: { rating_rate: 'desc' } },
+};
+
 export async function findById({ product_id } : { product_id: number }) {
   const item = await prisma.product.findUnique({
     where: { product_id },
+    include: {
+      brand: true,
+      category: true,
+      rating: true,
+    },
   });
 
   return item;
@@ -47,6 +62,14 @@ export async function findAll(query: ProductFilterQuery) {
         },
       ],
     },
+    include: {
+      brand: true,
+      category: true,
+      rating: true,
+    },
+    take: query.limit,
+    skip: query.skip,
+    orderBy: orderByDetails[query.orderBy || 'new-products'] as Prisma.ProductOrderByWithRelationInput,
   });
 
   return items;

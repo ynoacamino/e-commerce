@@ -38,7 +38,7 @@ export const isFilterQuery = (query: unknown): query is ProductFilterQuery => {
   }
 
   const {
-    price, rate, brand_id, category_id,
+    price, rate, brand_id, category_id, limit, skip, orderBy,
   } = query as ProductFilterQuery;
 
   if (price && !Array.isArray(price)) {
@@ -54,6 +54,18 @@ export const isFilterQuery = (query: unknown): query is ProductFilterQuery => {
   }
 
   if (category_id && !Array.isArray(category_id)) {
+    return false;
+  }
+
+  if (limit && !isNumber(limit)) {
+    return false;
+  }
+
+  if (skip && !isNumber(skip)) {
+    return false;
+  }
+
+  if (orderBy && !isString(orderBy)) {
     return false;
   }
 
