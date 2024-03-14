@@ -5,8 +5,9 @@ import SearchModal from '@/components/SearchModal';
 import OptionsBar from '@/components/OptionsBar';
 import Link from 'next/link';
 import { Category } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import ButtonLink from '@/components/ui/link';
 import MenubarDemo from './test';
-import { Button } from './ui/button';
 
 const getCategorys = async () => {
   const categorys = await fetch('http://localhost:3000/api/category/read', {
@@ -22,6 +23,7 @@ const getCategorys = async () => {
 
 export default async function NavBar() {
   const data = await getCategorys();
+  const session = await getServerSession();
   return (
     <header className="w-full flex justify-center items-center p-3 border-[1px] border-border sticky top-0 bg-background z-20">
       <div className="w-full max-w-7xl flex justify-between items-center">
@@ -36,10 +38,10 @@ export default async function NavBar() {
         </div>
         <div className="flex gap-4">
           <SearchModal />
-          <Button variant="ghost" size="icon">
+          <ButtonLink href="/carrito-de-compras" size="icon">
             <CardStackMinusIcon className="w-6 h-6" />
-          </Button>
-          <MenubarDemo />
+          </ButtonLink>
+          <MenubarDemo session={session} />
         </div>
       </div>
     </header>

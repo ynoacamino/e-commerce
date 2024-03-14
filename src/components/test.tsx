@@ -15,25 +15,25 @@ import { DialogTrigger } from '@/components/ui/dialog';
 import {
   PersonIcon, EnterIcon, ExitIcon, SunIcon, MoonIcon, DesktopIcon,
 } from '@radix-ui/react-icons';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
+import { Session } from 'next-auth';
 import Login from './Login';
 
-export default function MenubarDemo() {
+export default function MenubarDemo({ session }: { session: Session | null }) {
   const { setTheme } = useTheme();
-  const { data, status } = useSession();
 
   return (
     <Login>
       <Menubar className="border-transparent">
         <MenubarMenu>
-          <MenubarTrigger className={`${status === 'authenticated' && 'py-1'}`}>
+          <MenubarTrigger className={`${session && 'py-1'}`}>
             {
-            status === 'authenticated' && data?.user?.image
+            session && session?.user?.image
               ? (
                 <Image
-                  src={data?.user?.image}
+                  src={session?.user?.image}
                   alt="profile"
                   className="w-[2rem] h-[2rem] rounded-md"
                   width={30}
@@ -44,8 +44,8 @@ export default function MenubarDemo() {
           }
           </MenubarTrigger>
           <MenubarContent align="center">
-            <DialogTrigger asChild disabled={status === 'authenticated'}>
-              <MenubarItem disabled={status === 'authenticated'}>
+            <DialogTrigger asChild disabled={!!session}>
+              <MenubarItem disabled={!!session}>
                 Login
                 <MenubarShortcut>
                   <EnterIcon className="h-[1.2rem] w-[1.2rem]" />
@@ -53,7 +53,7 @@ export default function MenubarDemo() {
               </MenubarItem>
             </DialogTrigger>
             <MenubarSeparator />
-            <MenubarItem onClick={() => signOut()} disabled={status === 'unauthenticated'}>
+            <MenubarItem onClick={() => signOut()} disabled={!session}>
               Log out
               <MenubarShortcut>
                 <ExitIcon className="h-[1.2rem] w-[1.2rem]" />
