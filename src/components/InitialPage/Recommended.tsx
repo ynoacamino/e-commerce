@@ -10,6 +10,7 @@ const getProducts = async () => {
     },
     body: JSON.stringify({
       limit: 4,
+      orderBy: 'rating',
     }),
   }).then((res) => res.json());
 

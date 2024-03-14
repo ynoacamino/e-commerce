@@ -10,6 +10,7 @@ const getProducts = async () => {
     },
     body: JSON.stringify({
       limit: 3,
+      orderBy: 'lower-price',
     }),
   }).then((res) => res.json());
 
