@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Table,
   TableBody,
@@ -8,83 +10,57 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-];
+import { useEffect, useState } from 'react';
 
 export default function CarritoPage() {
+  const [cart, setCart] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/cart/read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    })
+      .then((response) => response.json())
+      .then((data) => setCart(data));
+  }, []);
+
   return (
     <div className="w-full flex flex-col my-10">
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>Lista de ventas</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">SKU</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead>Metodo</TableHead>
-            <TableHead>Producto</TableHead>
-            <TableHead>Fecha</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[80px]">ID del usuario</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead className="w-[80px]">ID del producto</TableHead>
+            <TableHead>Nombre del producto</TableHead>
+            <TableHead>Precio</TableHead>
+            <TableHead>Cantidad</TableHead>
+            <TableHead>Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          {cart.map(({
+            product, user, cart_count,
+          }) => (
+            <TableRow key={crypto.randomUUID()}>
+              <TableCell className="font-medium">{user.user_id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{product.product_id}</TableCell>
+              <TableCell>{product.product_name}</TableCell>
+              <TableCell>{product.product_price}</TableCell>
+              <TableCell>{cart_count}</TableCell>
+              <TableCell>{product.product_price * cart_count}</TableCell>
             </TableRow>
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={5}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
+            <TableCell colSpan={6}>Numero de ventas</TableCell>
+            <TableCell className="text-center">{cart.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>

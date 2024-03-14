@@ -14,8 +14,6 @@ export async function POST({ json }: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  console.log({ newCart });
-
   if (!isNewCart(newCart)) {
     return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
   }
