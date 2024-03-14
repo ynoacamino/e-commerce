@@ -4,18 +4,11 @@ import Link from '@/components/ui/link';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import FacebookIcon from '@/components/icons/FacebookIcon';
 import WhatsappIcon from '@/components/icons/WhatsappIcon';
 import TwitterIcon from '@/components/icons/TwitterIcon';
 import { PopultedProduct } from '@/types/Product/Product';
+import FormClient from './FormClient';
 
 const getProduct = async (id: string) => {
   const product_id = Number(id);
@@ -39,7 +32,8 @@ export default async function ItemPage({ params }: { params: { id: string } }) {
   const pages = [
     { url: '/', name: 'Home' },
     { url: '/item', name: 'Item' },
-    { url: `/item/${params.id}`, name: params.id }];
+    { url: `/item/${params.id}`, name: params.id },
+  ];
   return (
     <>
       <div className="w-full justify-start items-center p-6 flex gap-4 ">
@@ -74,25 +68,7 @@ export default async function ItemPage({ params }: { params: { id: string } }) {
             {' '}
             {data.product_price.toFixed(2)}
           </span>
-          <div className="w-full justify-between flex max-w-md">
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Cantidad" />
-              </SelectTrigger>
-              <SelectContent>
-                {
-                Array.from({ length: 10 }, (_, index) => (
-                  <SelectItem key={index} value={`${index + 1}`}>
-                    {index + 1}
-                  </SelectItem>
-                ))
-              }
-              </SelectContent>
-            </Select>
-            <Button>
-              Agregar al carrito
-            </Button>
-          </div>
+          <FormClient id={params.id} />
           <p className="my-10 font-light w-full max-w-md">
             {data.product_description}
           </p>
