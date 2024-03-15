@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Spiner } from '@/components/ui/spiner';
 import {
   Table,
   TableBody,
@@ -10,12 +12,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, MouseEventHandler } from 'react';
+import { toast } from 'sonner';
 
 export default function CarritoPage() {
   const [cart, setCart] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const { push } = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/cart/read', {
       method: 'POST',
       headers: {
@@ -24,11 +32,35 @@ export default function CarritoPage() {
       body: JSON.stringify({}),
     })
       .then((response) => response.json())
-      .then((data) => setCart(data));
+      .then((data) => setCart(data))
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) {
+    return (
+      <div className="w-full h-full flex flex-1 flex-col gap-4 items-center justify-center">
+        <Spiner />
+        Cargando...
+      </div>
+    );
+  }
+
+  const handlePay: MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+      }).then((res) => res.json());
+
+      if (response && response.init_point) {
+        push(response.init_point);
+      }
+    } catch (error) {
+      toast.error('Error al pagar');
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col my-10">
+    <div className="w-full flex flex-col my-10 flex-1">
       <Table>
         <TableCaption>Lista de ventas</TableCaption>
         <TableHeader>
@@ -64,6 +96,17 @@ export default function CarritoPage() {
           </TableRow>
         </TableFooter>
       </Table>
+      <div className="w-full flex flex-col justify-center items-center gap-4 flex-1">
+        <h2 className="text-3xl font-bold">
+          Pagar
+        </h2>
+        <Button
+          className="w-full max-w-lg"
+          onClick={handlePay}
+        >
+          Pagar
+        </Button>
+      </div>
     </div>
   );
 }

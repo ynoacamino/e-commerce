@@ -12,8 +12,7 @@ export default withAuth(
           (
             req.nextUrl.pathname.startsWith('/api/cart')
             || req.nextUrl.pathname.startsWith('/carrito-de-compras')
-            || req.nextUrl.pathname.startsWith('/checkout')
-            || req.nextUrl.pathname.startsWith('/api/order')
+            || req.nextUrl.pathname.startsWith('/api/checkout')
             || req.nextUrl.pathname.startsWith('/api/user')
           )
           && token === null
