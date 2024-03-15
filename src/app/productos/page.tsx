@@ -9,6 +9,8 @@ import Pagination from '@/components/productosPage/Pagination';
 import { type PopultedProduct, type OrderBy } from '@/types/Product/Product';
 
 import { prisma } from '@/lib/prisma';
+import { Brand, Category } from '@prisma/client';
+import Rating from '@/components/itemPage/Rating';
 
 const LIMIT = 8;
 
@@ -34,6 +36,30 @@ const getLength = async () => {
   return length;
 };
 
+const getCategories = async () => {
+  const categories = await fetch('http://localhost:3000/api/category/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  }).then((res) => res.json());
+
+  return categories as Category[];
+};
+
+const getBrands = async () => {
+  const brands = await fetch('http://localhost:3000/api/brand/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  }).then((res) => res.json());
+
+  return brands as Brand[];
+};
+
 export default async function ProductosPage({
   searchParams,
 }: {
@@ -42,6 +68,8 @@ export default async function ProductosPage({
   const { orderBy, page } = searchParams;
   const data = await getProducts({ page, orderBy });
   const total = await getLength();
+  const categories = await getCategories();
+  const brands = await getBrands();
 
   return (
     <div className="w-full flex">
@@ -50,35 +78,57 @@ export default async function ProductosPage({
           Filtros
         </h2>
         <form className="flex flex-col gap-6">
-          {
-            Array.from({ length: 5 }).map(() => (
-              <div key={crypto.randomUUID()}>
-                <Title>
-                  Categoria
-                </Title>
-                <div className="flex flex-col pl-6 gap-2">
-                  <label className="flex gap-2 items-center ">
+          <div>
+            <Title>
+              Categoria
+            </Title>
+            <div className="flex flex-col pl-6 gap-2">
+              {
+                categories.map((category) => (
+                  <label key={crypto.randomUUID()} className="flex gap-2 items-center ">
                     <Checkbox />
                     <span>
-                      Accept
+                      {category.category_name}
                     </span>
                   </label>
-                  <label className="flex gap-2 items-center ">
+                ))
+              }
+            </div>
+          </div>
+          <div>
+            <Title>
+              Marcas
+            </Title>
+            <div className="flex flex-col pl-6 gap-2">
+              {
+                brands.map((brand) => (
+                  <label key={crypto.randomUUID()} className="flex gap-2 items-center ">
                     <Checkbox />
                     <span>
-                      Accept
+                      {brand.brand_name}
                     </span>
                   </label>
-                  <label className="flex gap-2 items-center ">
+                ))
+              }
+            </div>
+          </div>
+          <div>
+            <Title>
+              Calificacion
+            </Title>
+            <div className="flex flex-col pl-6 gap-4">
+              {
+                Array.from({ length: 5 }).map((_, i) => (
+                  <label key={crypto.randomUUID()} className="flex gap-2 items-center ">
                     <Checkbox />
                     <span>
-                      Accept
+                      <Rating rating={i + 1} />
                     </span>
                   </label>
-                </div>
-              </div>
-            ))
-          }
+                ))
+              }
+            </div>
+          </div>
         </form>
       </div>
       <div className="flex flex-col flex-1">
