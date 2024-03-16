@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export async function POST(req:Request) {
   const url = new URL(req.url);
   const client = new MercadoPagoConfig({
-    accessToken: 'TEST-2540608626419579-031511-49e8e52b4c0bbaf273759e49b3c7e66e-1729753630',
+    accessToken: process.env.MERCADO_PAGO_ACCESS as string,
     options: {
       timeout: 5000,
       idempotencyKey: 'abc',
@@ -15,15 +15,29 @@ export async function POST(req:Request) {
 
   try {
     if (url.searchParams.get('type') === 'payment') {
-      await payment.get({ id: url.searchParams.get('data.id') || '', requestOptions: {} });
+      const data = await payment.get({ id: url.searchParams.get('data.id') || '', requestOptions: {} });
+
+      if (!data.id || !data.metadata?.user_id) {
+        throw new Error('Payment not found');
+      }
+
+      await prisma.payment.create({
+        data: {
+          payment_id: data.id,
+          user_id: data.metadata.user_id,
+        },
+      });
 
       await prisma.cart.deleteMany({
         where: {
-          user_id: 1,
+          user_id: data.metadata.user_id,
         },
       });
+
+      return Response.json({ message: 'ok' });
     }
   } catch (error : any) {
+    console.error(error);
     return Response.json({ error: error.message }, { status: 500 });
   }
 

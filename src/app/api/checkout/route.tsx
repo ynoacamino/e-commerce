@@ -50,17 +50,15 @@ export async function POST() {
     body: {
       items,
       back_urls: {
-        success: 'http://localhost:3000/carrito-de-compras/success',
-        failure: 'http://localhost:3000/carrito-de-compras/failure',
-        pending: 'http://localhost:3000/carrito-de-compras/pending',
+        success: `${process.env.URL_API}/pagos`,
+        failure: `${process.env.URL_API}/carrito-de-compras/failure`,
+        pending: `${process.env.URL_API}/carrito-de-compras/pending`,
       },
-      notification_url: 'https://d25a-45-230-251-19.ngrok-free.app/api/orderHook',
+      notification_url: `${process.env.URL_API}api/orderHook`,
+      metadata: {
+        user_id: session.user.user_id,
+      },
     },
-  });
-
-  console.log({
-    init_point: response.init_point,
-    preference_id: response.id,
   });
 
   return Response.json({

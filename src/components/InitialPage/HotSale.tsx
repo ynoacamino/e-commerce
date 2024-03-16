@@ -3,7 +3,7 @@ import { CardV } from '@/components/ui/ProductCard';
 import { PopultedProduct } from '@/types/Product/Product';
 
 const getProducts = async () => {
-  const products = await fetch('http://localhost:3000/api/product/read', {
+  const products = await fetch(`${process.env.URL_API}/api/product/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

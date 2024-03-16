@@ -9,7 +9,7 @@ import { PopultedProduct } from '@/types/Product/Product';
 import { CardV } from '../ui/ProductCard';
 
 const getProducts = async () => {
-  const products = [2, 3, 4, 5].map((id) => fetch('http://localhost:3000/api/product/read', {
+  const products = [2, 3, 4, 5].map((id) => fetch(`${process.env.URL_API}/api/product/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ export default function FormClient({ id }: { id: string }) {
     const product_id = Number(id);
     const cart_count = Number(formData.get('cart_count'));
 
-    const response = await fetch('http://localhost:3000/api/cart/create', {
+    const response = await fetch('/api/cart/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

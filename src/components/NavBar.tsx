@@ -1,5 +1,5 @@
 import {
-  ShadowNoneIcon, CardStackMinusIcon,
+  ShadowNoneIcon,
 } from '@radix-ui/react-icons';
 import SearchModal from '@/components/SearchModal';
 import OptionsBar from '@/components/OptionsBar';
@@ -7,10 +7,11 @@ import Link from 'next/link';
 import { Category } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import ButtonLink from '@/components/ui/link';
+import { ShoppingCart, ShoppingBag } from 'lucide-react';
 import MenubarDemo from './test';
 
 const getCategorys = async () => {
-  const categorys = await fetch('http://localhost:3000/api/category/read', {
+  const categorys = await fetch(`${process.env.URL_API}/api/category/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,8 +39,11 @@ export default async function NavBar() {
         </div>
         <div className="flex gap-4">
           <SearchModal />
+          <ButtonLink href="/pagos" size="icon">
+            <ShoppingBag className="w-6 h-6" />
+          </ButtonLink>
           <ButtonLink href="/carrito-de-compras" size="icon">
-            <CardStackMinusIcon className="w-6 h-6" />
+            <ShoppingCart className="w-6 h-6" />
           </ButtonLink>
           <MenubarDemo session={session} />
         </div>

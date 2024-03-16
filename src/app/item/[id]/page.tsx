@@ -12,7 +12,7 @@ import FormClient from './FormClient';
 const getProduct = async (id: string) => {
   const product_id = Number(id);
 
-  const product = await fetch('http://localhost:3000/api/product/read', {
+  const product = await fetch(`${process.env.URL_API}/api/product/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

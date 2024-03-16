@@ -12,10 +12,10 @@ import { prisma } from '@/lib/prisma';
 import { Brand, Category } from '@prisma/client';
 import Rating from '@/components/itemPage/Rating';
 
-const LIMIT = 8;
+const LIMIT = 20;
 
 const getProducts = async ({ page = '1', orderBy = 'new-products' }: { page: string, orderBy: OrderBy }) => {
-  const products = await fetch('http://localhost:3000/api/product/read', {
+  const products = await fetch(`${process.env.URL_API}/api/product/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const getLength = async () => {
 };
 
 const getCategories = async () => {
-  const categories = await fetch('http://localhost:3000/api/category/read', {
+  const categories = await fetch(`${process.env.URL_API}/api/category/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const getCategories = async () => {
 };
 
 const getBrands = async () => {
-  const brands = await fetch('http://localhost:3000/api/brand/read', {
+  const brands = await fetch(`${process.env.URL_API}/api/brand/read`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
