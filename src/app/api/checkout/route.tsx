@@ -1,18 +1,18 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { getServerSession, Session } from 'next-auth';
 import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 import { authOptions } from '../auth/[...nextauth]/authOptions';
 
 type UserSession = Session & { user : { user_id: number } };
 
-export async function POST() {
+export async function POST(): Promise<void | Response> {
   const session = await getServerSession(authOptions) as UserSession;
 
   if (!session) {
-    return {
-      status: 401,
-      body: { error: 'Unauthorized' },
-    };
+    return Response.json({
+      error: 'Unauthorized',
+    }, { status: 401 });
   }
 
   const cart = await prisma.cart.findMany({
@@ -61,7 +61,7 @@ export async function POST() {
     },
   });
 
-  return Response.json({
+  return NextResponse.json({
     init_point: response.init_point,
     preference_id: response.id,
   });

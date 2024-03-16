@@ -12,17 +12,22 @@ import FormClient from './FormClient';
 const getProduct = async (id: string) => {
   const product_id = Number(id);
 
-  const product = await fetch(`${process.env.URL_API}/api/product/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      product_id,
-    }),
-  }).then((res) => res.json());
+  try {
+    const product = await fetch(`${process.env.URL_API}/api/product/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        product_id,
+      }),
+    }).then((res) => res.json());
 
-  return product as PopultedProduct;
+    return product as PopultedProduct;
+  } catch (error) {
+    console.error('Error message:', error);
+    return null;
+  }
 };
 
 export default async function ItemPage({ params }: { params: { id: string } }) {
@@ -33,6 +38,8 @@ export default async function ItemPage({ params }: { params: { id: string } }) {
     { url: '/item', name: 'Product' },
     { url: `/item/${params.id}`, name: params.id },
   ];
+
+  if (!data) return <h1>Producto no encontrado</h1>;
   return (
     <>
       <div className="w-full justify-start items-center p-6 flex gap-4 ">

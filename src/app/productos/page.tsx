@@ -15,19 +15,24 @@ import Rating from '@/components/itemPage/Rating';
 const LIMIT = 20;
 
 const getProducts = async ({ page = '1', orderBy = 'new-products' }: { page: string, orderBy: OrderBy }) => {
-  const products = await fetch(`${process.env.URL_API}/api/product/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      limit: LIMIT,
-      skip: (Number(page) - 1) * LIMIT,
-      orderBy,
-    }),
-  }).then((res) => res.json());
+  try {
+    const products = await fetch(`${process.env.URL_API}/api/product/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        limit: LIMIT,
+        skip: (Number(page) - 1) * LIMIT,
+        orderBy,
+      }),
+    }).then((res) => res.json());
 
-  return products as PopultedProduct[];
+    return products as PopultedProduct[];
+  } catch (error) {
+    console.error('Error message:', error);
+    return [];
+  }
 };
 
 const getLength = async () => {
@@ -37,27 +42,37 @@ const getLength = async () => {
 };
 
 const getCategories = async () => {
-  const categories = await fetch(`${process.env.URL_API}/api/category/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({}),
-  }).then((res) => res.json());
+  try {
+    const categories = await fetch(`${process.env.URL_API}/api/category/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    }).then((res) => res.json());
 
-  return categories as Category[];
+    return categories as Category[];
+  } catch (error) {
+    console.error('Error message:', error);
+    return [];
+  }
 };
 
 const getBrands = async () => {
-  const brands = await fetch(`${process.env.URL_API}/api/brand/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({}),
-  }).then((res) => res.json());
+  try {
+    const brands = await fetch(`${process.env.URL_API}/api/brand/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    }).then((res) => res.json());
 
-  return brands as Brand[];
+    return brands as Brand[];
+  } catch (error) {
+    console.error('Error message:', error);
+    return [];
+  }
 };
 
 export default async function ProductosPage({

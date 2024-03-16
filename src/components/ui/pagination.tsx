@@ -40,14 +40,17 @@ PaginationItem.displayName = 'PaginationItem';
 
 type PaginationLinkProps = {
   isActive?: boolean
-} & Pick<ButtonProps, 'size'> &
-React.ComponentProps<'a'>;
+  href: string
+  className?: string
+  children?: React.ReactNode
+} & Pick<ButtonProps, 'size'>;
 
 function PaginationLink({
   className,
   isActive,
   size = 'icon',
-  ...props
+  href,
+  children,
 }: PaginationLinkProps) {
   return (
     <Link
@@ -59,8 +62,10 @@ function PaginationLink({
         }),
         className,
       )}
-      {...props}
-    />
+      href={href}
+    >
+      {children}
+    </Link>
   );
 }
 PaginationLink.displayName = 'PaginationLink';
@@ -68,7 +73,7 @@ PaginationLink.displayName = 'PaginationLink';
 function PaginationPrevious({
   className,
   isDisabled,
-  ...props
+  href,
 }: { isDisabled ?: boolean } & React.ComponentProps<typeof PaginationLink>) {
   return (
     <PaginationLink
@@ -77,7 +82,7 @@ function PaginationPrevious({
       className={cn('gap-1 pl-2.5', className, {
         'pointer-events-none text-zinc-400': isDisabled,
       })}
-      {...props}
+      href={href}
     >
       <ChevronLeft className="h-4 w-4" />
       <span>Previous</span>

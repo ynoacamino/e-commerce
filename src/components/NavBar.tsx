@@ -11,15 +11,20 @@ import { ShoppingCart, ShoppingBag } from 'lucide-react';
 import MenubarDemo from './test';
 
 const getCategorys = async () => {
-  const categorys = await fetch(`${process.env.URL_API}/api/category/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({}),
-  }).then((res) => res.json());
+  try {
+    const categorys = await fetch(`${process.env.URL_API}/api/category/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    }).then((res) => res.json());
 
-  return categorys as Category[];
+    return categorys as Category[];
+  } catch (err) {
+    console.error('Error message:', err);
+    return [];
+  }
 };
 
 export default async function NavBar() {

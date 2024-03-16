@@ -9,18 +9,23 @@ import { PopultedProduct } from '@/types/Product/Product';
 import { CardV } from '../ui/ProductCard';
 
 const getProducts = async () => {
-  const products = [2, 3, 4, 5].map((id) => fetch(`${process.env.URL_API}/api/product/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      category_id: [id],
-      limit: 4,
-    }),
-  }).then((res) => res.json()));
+  try {
+    const products = [2, 3, 4, 5].map((id) => fetch(`${process.env.URL_API}/api/product/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        category_id: [id],
+        limit: 4,
+      }),
+    }).then((res) => res.json()));
 
-  return Promise.all(products) as Promise<PopultedProduct[][]>;
+    return await (Promise.all(products) as Promise<PopultedProduct[][]>);
+  } catch (error) {
+    console.error('Error message:', error);
+    return [];
+  }
 };
 
 export default async function Categorys() {

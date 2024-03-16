@@ -3,18 +3,23 @@ import { type PopultedProduct } from '@/types/Product/Product';
 import H1 from '../ui/H1';
 
 const getProducts = async () => {
-  const products = await fetch(`${process.env.URL_API}/api/product/read`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      limit: 4,
-      orderBy: 'rating',
-    }),
-  }).then((res) => res.json());
+  try {
+    const products = await fetch(`${process.env.URL_API}/api/product/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        limit: 4,
+        orderBy: 'rating',
+      }),
+    }).then((res) => res.json());
 
-  return products as Promise<PopultedProduct[]>;
+    return await (products as Promise<PopultedProduct[]>);
+  } catch (error) {
+    console.error('Error message:', error);
+    return [];
+  }
 };
 
 export default async function Recommended() {
