@@ -22,7 +22,6 @@ const getCategorys = async () => {
 
     return categorys as Category[];
   } catch (err) {
-    console.error('Error message:', err);
     return [];
   }
 };

@@ -23,13 +23,15 @@ const getProducts = async () => {
 
     return await (Promise.all(products) as Promise<PopultedProduct[][]>);
   } catch (error) {
-    console.error('Error message:', error);
-    return [];
+    return null;
   }
 };
 
 export default async function Categorys() {
   const data = await getProducts();
+
+  if (!data) return <h1>Productos no encontrados</h1>;
+
   return (
     <div className="w-full flex flex-col justify-start items-center py-10 border-b-[1px] border-border">
       <H1>

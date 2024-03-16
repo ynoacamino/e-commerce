@@ -37,7 +37,6 @@ export async function POST(req:Request) {
       return Response.json({ message: 'ok' });
     }
   } catch (error : any) {
-    console.error('Error message:', error);
     return Response.json({ error: error.message }, { status: 500 });
   }
 

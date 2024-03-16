@@ -17,7 +17,6 @@ const getProducts = async () => {
 
     return await (products as Promise<PopultedProduct[]>);
   } catch (error) {
-    console.error('Error message:', error);
     return [];
   }
 };

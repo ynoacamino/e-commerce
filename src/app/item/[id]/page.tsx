@@ -25,7 +25,6 @@ const getProduct = async (id: string) => {
 
     return product as PopultedProduct;
   } catch (error) {
-    console.error('Error message:', error);
     return null;
   }
 };

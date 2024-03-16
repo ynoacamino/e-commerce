@@ -30,7 +30,6 @@ const getProducts = async ({ page = '1', orderBy = 'new-products' }: { page: str
 
     return products as PopultedProduct[];
   } catch (error) {
-    console.error('Error message:', error);
     return [];
   }
 };
@@ -53,7 +52,6 @@ const getCategories = async () => {
 
     return categories as Category[];
   } catch (error) {
-    console.error('Error message:', error);
     return [];
   }
 };
@@ -70,7 +68,6 @@ const getBrands = async () => {
 
     return brands as Brand[];
   } catch (error) {
-    console.error('Error message:', error);
     return [];
   }
 };
