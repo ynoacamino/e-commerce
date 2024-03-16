@@ -18,6 +18,8 @@ model User {
   name String
 
   carts Cart[]
+
+  orders Order[]
 }
 
 model Product {
@@ -93,4 +95,12 @@ model Brand {
   brand_name String
 
   products Product[]
+}
+
+model Order {
+  user_id Int
+  user User @relation(fields: [user_id], references: [user_id])
+  payment_id Int @id
+  payment_date DateTime @default(now())
+  order_status String
 }
