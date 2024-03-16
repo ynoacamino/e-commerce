@@ -1,10 +1,19 @@
+'use client';
+
 import Link from '@/components/ui/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Button } from './button';
 
 export default function Breadcrumb({ pags }: { pags: { url: string, name: string }[] }) {
+  const { back } = useRouter();
   return (
-    <div className="flex gap-2 items-center">
-      {
+    <>
+      <Button variant="ghost" size="icon" onClick={() => back()}>
+        <ArrowLeft />
+      </Button>
+      <div className="flex gap-2 items-center">
+        {
       pags.map(({ name, url }, index) => {
         if (index !== pags.length - 1) {
           return (
@@ -19,6 +28,7 @@ export default function Breadcrumb({ pags }: { pags: { url: string, name: string
         return <span key={url}>{name}</span>;
       })
       }
-    </div>
+      </div>
+    </>
   );
 }

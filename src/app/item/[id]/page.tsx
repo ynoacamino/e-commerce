@@ -1,7 +1,6 @@
 import Rating from '@/components/itemPage/Rating';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import Link from '@/components/ui/link';
-import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 
 import FacebookIcon from '@/components/icons/FacebookIcon';
@@ -31,15 +30,12 @@ export default async function ItemPage({ params }: { params: { id: string } }) {
 
   const pages = [
     { url: '/', name: 'Home' },
-    { url: '/item', name: 'Item' },
+    { url: '/item', name: 'Product' },
     { url: `/item/${params.id}`, name: params.id },
   ];
   return (
     <>
       <div className="w-full justify-start items-center p-6 flex gap-4 ">
-        <Link href="/" size="icon">
-          <ArrowLeft />
-        </Link>
         <Breadcrumb pags={pages} />
       </div>
       <div className="w-full flex-1 grid grid-cols-2 px-10">
