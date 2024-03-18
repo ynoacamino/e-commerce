@@ -18,10 +18,10 @@ export default function Subscribe() {
       </form>
       <Image
         alt="Present Image"
-        src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1707358763/oniheih1dqv8xzrgpgkm.png"
+        src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1710788227/p8weqnh0yn62xvmzunfl.jpg"
         width={800}
         height={500}
-        className="border-l-[1px] border-border w-full md:max-w-lg hidden md:flex"
+        className="border-l-[1px] border-border w-full md:max-w-lg hidden md:flex aspect-video"
       />
     </div>
   );

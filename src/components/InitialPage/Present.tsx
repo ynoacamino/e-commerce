@@ -5,10 +5,10 @@ export default function Present() {
     <div className="flex w-full justify-center items-center md:flex-row pb-5 md:pb-0 flex-col mb-5 border-b-[1px] border-border">
       <Image
         alt="Present Image"
-        src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1707358763/oniheih1dqv8xzrgpgkm.png"
+        src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1710788227/p8weqnh0yn62xvmzunfl.jpg"
         width={800}
         height={500}
-        className="border-r-[1px] border-border w-full md:max-w-2xl"
+        className="border-r-[1px] border-border w-full md:max-w-2xl aspect-video object-cover "
       />
       <div className="flex-1 flex flex-col items-center justify-center">
         <h1 className="text-5xl my-5 px-5 font-bold text-center">Bienvenido</h1>
