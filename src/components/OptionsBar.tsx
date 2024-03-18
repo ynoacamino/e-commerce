@@ -33,7 +33,7 @@ export default function OptionsBar({ categorys }: { categorys: Category[] }) {
               {
                 categorys.map(({ category_description, category_name }) => (
                   <NavigationMenuLink asChild title="Introduction" key={crypto.randomUUID()}>
-                    <Link href="/" className='"block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex gap-4 items-center justify-center"'>
+                    <Link href="/productos" className='"block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex gap-4 items-center justify-center"'>
                       <ArchiveIcon className="w-10 h-10" />
                       <div>
                         <div className="text-sm font-medium leading-none">{category_name}</div>
