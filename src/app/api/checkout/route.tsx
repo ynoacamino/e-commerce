@@ -7,7 +7,13 @@ import { authOptions } from '../auth/[...nextauth]/authOptions';
 type UserSession = Session & { user : { user_id: number } };
 
 export async function POST(): Promise<void | Response> {
-  const session = await getServerSession(authOptions) as UserSession;
+  let session;
+  try {
+    session = await getServerSession(authOptions) as UserSession;
+  } catch (error) {
+    console.log('getServerSession', error);
+    return Response.json({}, { status: 500 });
+  }
 
   if (!session) {
     return Response.json({
@@ -46,23 +52,28 @@ export async function POST(): Promise<void | Response> {
     picture_url: cartItem.product.product_image,
   }));
 
-  const response = await preference.create({
-    body: {
-      items,
-      back_urls: {
-        success: `${process.env.URL_API}/pagos`,
-        failure: `${process.env.URL_API}/carrito-de-compras/failure`,
-        pending: `${process.env.URL_API}/carrito-de-compras/pending`,
+  try {
+    const response = await preference.create({
+      body: {
+        items,
+        back_urls: {
+          success: `${process.env.URL_API}/pagos`,
+          failure: `${process.env.URL_API}/carrito-de-compras/failure`,
+          pending: `${process.env.URL_API}/carrito-de-compras/pending`,
+        },
+        notification_url: `${process.env.URL_API}api/orderHook`,
+        metadata: {
+          user_id: session.user.user_id,
+        },
       },
-      notification_url: `${process.env.URL_API}api/orderHook`,
-      metadata: {
-        user_id: session.user.user_id,
-      },
-    },
-  });
+    });
 
-  return NextResponse.json({
-    init_point: response.init_point,
-    preference_id: response.id,
-  });
+    return NextResponse.json({
+      init_point: response.init_point,
+      preference_id: response.id,
+    });
+  } catch (error) {
+    console.log('mercadopago', error);
+    return Response.json({}, { status: 500 });
+  }
 }

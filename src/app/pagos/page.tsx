@@ -16,6 +16,7 @@ import { authOptions } from '../api/auth/[...nextauth]/authOptions';
 type UserSession = Session & { user : { user_id: number } };
 
 const getPayments = async ({ user_id }: { user_id: number }) => {
+  console.log('mercadopagoacces', process.env.MERCADO_PAGO_ACCESS);
   const client = new MercadoPagoConfig({
     accessToken: process.env.MERCADO_PAGO_ACCESS as string,
     options: {
@@ -26,26 +27,37 @@ const getPayments = async ({ user_id }: { user_id: number }) => {
 
   const payment = new Payment(client);
 
-  const payments = await prisma.payment.findMany({
-    where: {
-      user_id,
-    },
-    include: {
-      user: true,
-    },
-  });
-
-  const compras = payments.map(async (p) => {
-    const data = await payment.get({ id: p.payment_id, requestOptions: {} });
-
-    return ({
-      ...p,
-      products: data.additional_info?.items,
-      amount: data.transaction_amount,
+  let payments;
+  try {
+    payments = await prisma.payment.findMany({
+      where: {
+        user_id,
+      },
+      include: {
+        user: true,
+      },
     });
-  });
+  } catch (error) {
+    console.log('prisma', error);
+    return [];
+  }
 
-  return Promise.all(compras);
+  try {
+    const compras = payments.map(async (p) => {
+      const data = await payment.get({ id: p.payment_id, requestOptions: {} });
+
+      return ({
+        ...p,
+        products: data.additional_info?.items,
+        amount: data.transaction_amount,
+      });
+    });
+
+    return await Promise.all(compras);
+  } catch (error) {
+    console.log('mercadopago', error);
+    return [];
+  }
 };
 
 export default async function ComprasPage() {
