@@ -22,11 +22,6 @@ const searchClient = algoliasearch('WIBFBYZYZN', '0327e13df4497a05c6db93789d13cb
 
 const client = searchClient.initIndex('e-commerce-ynoacamino');
 
-client.search('easy', {
-  hitsPerPage: 5,
-}).then((res) => console.log(res))
-  .catch(console.log);
-
 export default function SearchModal() {
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState('');
