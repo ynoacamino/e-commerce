@@ -66,7 +66,8 @@ export function CardV(
           src={product_image}
           height={300}
           width={300}
-          className="w-full border-b-[1px] border-border aspect-square"
+          className="w-full border-b-[1px] border-border aspect-square bg-accent"
+          priority
         />
         <CardHeader className="sm:p-6 p-3">
           <CardTitle className="text-wrap text-base">
