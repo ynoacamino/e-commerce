@@ -7,7 +7,7 @@ export default function ProgressBarProvider({ children }: { children: React.Reac
     <>
       <ProgressBar
         color="#18181b"
-        height="6px"
+        height="3px"
       />
       {children}
     </>
