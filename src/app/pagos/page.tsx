@@ -16,7 +16,7 @@ import { authOptions } from '../api/auth/[...nextauth]/authOptions';
 type UserSession = Session & { user : { user_id: number } };
 
 const getPayments = async ({ user_id }: { user_id: number }) => {
-  console.log('mercadopagoacces', process.env.MERCADO_PAGO_ACCESS);
+  console.error('mercadopagoacces', process.env.MERCADO_PAGO_ACCESS);
   const client = new MercadoPagoConfig({
     accessToken: process.env.MERCADO_PAGO_ACCESS as string,
     options: {
@@ -38,7 +38,7 @@ const getPayments = async ({ user_id }: { user_id: number }) => {
       },
     });
   } catch (error) {
-    console.log('prisma', error);
+    console.error('prisma', error);
     return [];
   }
 

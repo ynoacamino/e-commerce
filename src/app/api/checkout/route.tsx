@@ -11,7 +11,7 @@ export async function POST(): Promise<void | Response> {
   try {
     session = await getServerSession(authOptions) as UserSession;
   } catch (error) {
-    console.log('getServerSession', error);
+    console.error('getServerSession', error);
     return Response.json({}, { status: 500 });
   }
 
@@ -73,7 +73,7 @@ export async function POST(): Promise<void | Response> {
       preference_id: response.id,
     });
   } catch (error) {
-    console.log('mercadopago', error);
+    console.error('mercadopago', error);
     return Response.json({}, { status: 500 });
   }
 }

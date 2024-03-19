@@ -55,7 +55,7 @@ export default function CarritoPage() {
         push(response.init_point);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error('Error al pagar');
     }
   };
